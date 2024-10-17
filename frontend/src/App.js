@@ -20,7 +20,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { summary, reliability } = await localSummarizeArticlesummarizeArticle(url, text);
+        const { summary, reliability } = await summarizeArticle(url, text);
         setSummary(summary);
 
         // Check the reliability of the source using the generated summary

@@ -1,0 +1,180 @@
+/* App.css */
+
+.App {
+  font-family: 'Arial', sans-serif;
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px; /* Centering the content */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+}
+
+/* Header Styles */
+h3 {
+  color: #333; /* Dark text color */
+  text-align: center; /* Centered header */
+  font-size: 28px; /* Slightly larger font size */
+  margin-bottom: 15px; /* Space below header */
+}
+
+/* ArticleSummarizer Component Styles */
+.ArticleSummarizer {
+  background-color: #ffffff; /* White background for the input section */
+  padding: 20px;
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  margin-bottom: 30px; /* Increased space below the summarizer */
+}
+
+/* Input Styles */
+input[type="text"],
+textarea {
+  width: 95%; /* Full width */
+  padding: 12px; /* Increased padding */
+  margin: 10px 0; /* Space between input fields */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 6px; /* Slightly more rounded corners */
+  font-size: 16px; /* Font size */
+  transition: border-color 0.3s; /* Smooth transition for focus */
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #007bff; /* Border color on focus */
+  outline: none; /* Remove outline */
+}
+
+/* Button Styles */
+button {
+  background-color: #007bff; /* Button color */
+  color: white; /* Button text color */
+  padding: 12px 20px; /* Increased padding */
+  border: none; /* Remove border */
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer; /* Pointer on hover */
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+  margin-right: 10px; /* Space between buttons */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Subtle lift effect on hover */
+}
+
+/* Summary Styles */
+h4 {
+  color: #333; /* Dark text color */
+  font-size: 22px; /* Increased font size */
+}
+
+p {
+  background-color: #e9ecef; /* Light gray background for summary */
+  padding: 15px;
+  border-radius: 6px; /* Rounded corners */
+  margin: 10px 0; /* Space above and below the summary */
+}
+
+/* Summary Container */
+.summary-container {
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 6px; /* Rounded corners */
+  padding: 20px; /* Spacing inside the container */
+  margin-top: 20px; /* Space above the summary */
+  font-family: Arial, sans-serif; /* Font style */
+  font-size: 16px; /* Font size */
+  line-height: 1.6; /* Line height for readability */
+}
+
+.summary-title {
+  font-size: 24px; /* Title size */
+  font-weight: bold; /* Bold title */
+  margin-bottom: 10px; /* Space below the title */
+}
+
+.summary-keypoints {
+  margin-top: 10px; /* Space above key points */
+}
+
+.keypoint {
+  margin-bottom: 5px; /* Space between key points */
+}
+
+/* Reliability Report Styles */
+.reliability-report {
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 6px; /* Rounded corners */
+  padding: 20px; /* Spacing inside the container */
+  margin-top: 20px; /* Space above the summary */
+}
+
+.reliability-report h2 {
+  color: #333; /* Dark text color */
+  margin-bottom: 10px; /* Space below the heading */
+}
+
+.reliability-report h3 {
+  color: #555; /* Lighter text color */
+  margin-bottom: 5px; /* Space below the heading */
+}
+
+
+
+
+/* ArticleReliabilityReport.css */
+
+.reliability-report {
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Spacing inside the container */
+  margin-top: 20px; /* Space above the summary */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.button-container {
+  display: flex; /* Flex layout for buttons */
+  justify-content: flex-start; /* Align buttons to the start */
+  margin-bottom: 15px; /* Space below the button container */
+}
+
+.toggle-report-button,
+.download-button {
+  background-color: #007bff; /* Button color */
+  color: white; /* Button text color */
+  padding: 12px 20px; /* Increased padding */
+  border: none; /* Remove border */
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer; /* Pointer on hover */
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+  margin-right: 10px; /* Space between buttons */
+}
+
+.toggle-report-button:hover,
+.download-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Subtle lift effect on hover */
+}
+
+.report-content {
+  margin-top: 10px; /* Space above the report content */
+}
+
+.report-content h2 {
+  color: #333; /* Dark text color for headings */
+  margin-bottom: 10px; /* Space below the heading */
+}
+
+.report-content h3 {
+  color: #555; /* Lighter text color for subheadings */
+  margin-bottom: 5px; /* Space below the subheading */
+}
+
+.report-content p {
+  color: #333; /* Dark text color */
+  line-height: 1.5; /* Improved line height for readability */
+}

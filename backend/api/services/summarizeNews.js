@@ -318,7 +318,7 @@ const analyzeSentiment = async (articleText) => {
             content: prompt,
           },
         ],
-        max_tokens: 40, // Reduce token limit for tighter control
+        max_tokens: 100, // Reduce token limit for tighter control
       });
 
       const responseText = response.choices[0].message.content.trim();

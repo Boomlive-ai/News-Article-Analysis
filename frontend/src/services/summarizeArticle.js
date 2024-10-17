@@ -19,7 +19,7 @@ export const summarizeArticle = async (url, text) => {
 
 export const localSummarizeArticle = async (url, text) => {
   try {
-    const response = await axios.post('https://news-article-analysis.vercel.app/api/summarize', {
+    const response = await axios.post('http://localhost:3001/api/summarize', {
       url,
       text,
     });
@@ -33,6 +33,20 @@ export const localSummarizeArticle = async (url, text) => {
 
 
 export const localAnalyseSentiment = async (url, text) => {
+  try {
+    const response = await axios.post('http://localhost:3001/api/sentiment', {
+      url,
+      text,
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error analysing the sentiment of article:', error);
+    throw new Error('Error analysing the sentiment of article:', error);
+  }
+};
+
+export const analyseSentiment = async (url, text) => {
   try {
     const response = await axios.post('https://news-article-analysis.vercel.app/api/sentiment', {
       url,

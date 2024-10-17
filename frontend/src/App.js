@@ -7,6 +7,7 @@ import {
   localAnalyseSentiment,
   localSummarizeArticle,
   summarizeArticle,
+  analyseSentiment
 } from "./services/summarizeArticle";
 // import { checkSourceReliability } from './services/checkSourceReliability'; // Import your check reliability service
 
@@ -19,7 +20,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { summary, reliability } = await localSummarizeArticle(url, text);
+        const { summary, reliability } = await summarizeArticle(url, text);
         setSummary(summary);
 
         // Check the reliability of the source using the generated summary
@@ -37,7 +38,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { sentiment } = await localAnalyseSentiment(url, text);
+        const { sentiment } = await analyseSentiment(url, text);
         console.log(sentiment);
         setSentiment(sentiment);
       } catch (error) {

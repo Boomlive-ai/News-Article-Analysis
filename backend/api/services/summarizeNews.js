@@ -281,16 +281,16 @@ const analyzeSentiment = async (articleText) => {
   // };
   
   const prompts = {
-    Target: `Provide the name who is being targeted by the claim and describe the target as an individual, group, organization, or entity, including relevant roles or affiliations, the response should be wrapped and phrased in one sentence (e.g., "Sudarshan News - Media Outlet, Narendra Modi - The Prime Minister") . Article content: ${articleText}`,
-  
-    // Sentiment: `As a Fact-checking expert analyst in a top-tier organisation analyze the sentiment conveyed by the claim. Classify it as Positive, Negative, or Neutral(is the claim targeting positively, negatively, or neutrally) reflecting an emphasis on the factual reporting  without emotional interpretation. Provide Justification for sentiment, considering nuances like sarcasm or mixed feelings, The response should be pharsed like: sentiment(Positive, Negative, or Neutral)- Justification, note the sentiment should be provided by approaching article as a fact-checking expert analyst in a top-tier organisation. Article content: ${articleText}`,
-  
+    // Target: `Provide the name who is being targeted by the claim and describe the target as an individual,community, group, organization, or entity, including relevant roles or affiliations, the response should be wrapped and phrased in one sentence (e.g., "Sudarshan News - Media Outlet, Narendra Modi - The Prime Minister, Hindu Community, Muslim community, Sikh Community") . Article content: ${articleText}`,
+    Target: `Analyze the article from all perspectives and identify all entities being targeted by the claim, including individuals, organizations, and communities. Mention any relevant communities, individuals, and organizations specifically targeted, and format your response clearly, using separate lines for each type. The format should be: "Community: [Community Name] - [Description], Individual: [Name] - [Role], Organization: [Name] - [Description]." Ensure the response includes all relevant targets and is complete. Article content: ${articleText}.
+`,
 
-    Sentiment: `As a fact-checking expert analyst in a top-tier organization, evaluate the sentiment conveyed by the claim in the article. Classify the sentiment as Positive, Negative, or Neutral, focusing on the implications of the misinformation for affected communities. Your justification should highlight any emotional or social impact and it should be phrased in just one line, including potential harm caused by the false claims. Phrase your response as follows: (Positive, Negative, or Neutral) - Justification(one liner justification). Article content: ${articleText}`,
+ 
+    Sentiment: `As a sentiment-analyzing expert in a top-tier organization, evaluate the sentiment conveyed by the claim in the article. Classify the sentiment as Positive, Negative, or Neutral, focusing on the affected communities. Your justification should highlight any emotional or social impact and it should be phrased in just one line, including potential harm caused by the false claims and also if article shows multiple sentiments it can be showed providing justification. Phrase your response as follows: (Positive, Negative, or Neutral) - Justification(one liner justification). Article content: ${articleText}`,
 
 
 
-    Topic: `As a Fact-checking expert analyst in a top-tier give a topic tile to understand the context of article in few words.The Response should be a title like sentence which gives idea of topic of article. Article content: ${articleText}`,
+    Topic: `As a topic-analysing expert in a top-tier, generate a concise and informative title that encapsulates the key theme of the article. The title should reflect the context of misinformation surrounding the vandalism claims and indicate the fact-checking nature of the content. Article content: ${articleText}.`,
   
     Theme: `As a Fact-checking expert analyst in a top-tier organisation identify the primary theme(s) related to the claim from the categories (politics, communal, sports, entertainment, international, religious). , The Response should be single word like (politics, communal, sports, entertainment, international, religious), note if article has two or more themese then show it using seperated comma","(for eg. communal, politcal). Article content: ${articleText}`,
   

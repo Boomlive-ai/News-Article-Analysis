@@ -7,7 +7,7 @@ const fileUpload = require('express-fileupload');
 const app = express();
 
 // Define allowed origins, including localhost on any port
-const allowedOrigins = ['https://news-article-summarizer.vercel.app','https://nas-lovat.vercel.app','https://www.axionmatrix.com','https://axionmatrix.vercel.app','https://ims-api-beige.vercel.app', /^http:\/\/localhost:\d+$/];
+const allowedOrigins = ['https://analyzesentiment.vercel.app','https://news-article-summarizer.vercel.app','https://nas-lovat.vercel.app','https://www.axionmatrix.com','https://axionmatrix.vercel.app','https://ims-api-beige.vercel.app', /^http:\/\/localhost:\d+$/];
 
 // CORS options
 const corsOptions = {

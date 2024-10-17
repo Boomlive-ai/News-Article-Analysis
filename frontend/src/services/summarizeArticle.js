@@ -19,7 +19,7 @@ export const summarizeArticle = async (url, text) => {
 
 export const localSummarizeArticle = async (url, text) => {
   try {
-    const response = await axios.post('http://localhost:3001/api/summarize', {
+    const response = await axios.post('https://news-article-analysis.vercel.app/api/summarize', {
       url,
       text,
     });
@@ -34,7 +34,7 @@ export const localSummarizeArticle = async (url, text) => {
 
 export const localAnalyseSentiment = async (url, text) => {
   try {
-    const response = await axios.post('http://localhost:3001/api/sentiment', {
+    const response = await axios.post('https://news-article-analysis.vercel.app/api/sentiment', {
       url,
       text,
     });

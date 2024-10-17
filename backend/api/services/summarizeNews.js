@@ -282,7 +282,7 @@ const analyzeSentiment = async (articleText) => {
   
   const prompts = {
     // Target: `Provide the name who is being targeted by the claim and describe the target as an individual,community, group, organization, or entity, including relevant roles or affiliations, the response should be wrapped and phrased in one sentence (e.g., "Sudarshan News - Media Outlet, Narendra Modi - The Prime Minister, Hindu Community, Muslim community, Sikh Community") . Article content: ${articleText}`,
-    Target: `Analyze the article from all perspectives and identify all entities being targeted by the claim, including individuals, organizations, and communities. Mention any relevant communities, individuals, and organizations specifically targeted, and format your response clearly, using separate lines for each type. The format should be: "Community: [Community Name] - [Description], Individual: [Name] - [Role], Organization: [Name] - [Description]." Ensure the response includes all relevant targets and is complete. Article content: ${articleText}.
+    Target: `Analyze the article from all perspectives and identify all entities being targeted by the claim, including individuals, organizations, and communities. Mention any relevant communities, individuals, and organizations specifically targeted, and format your response clearly, using separate lines for each type. The format should be: "Community: [Community Name] - [Description], Individual: [Name] - [Role], Organization: [Name] - [Description]." Ensure the response includes all relevant targets and is complete , organize the response properly just show crisp and precise response. Article content: ${articleText}.
 `,
 
  

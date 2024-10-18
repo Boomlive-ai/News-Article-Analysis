@@ -6,7 +6,6 @@
 
 // require("dotenv").config();
 
-
 // const genAI = new GoogleGenerativeAI(`AIzaSyAVfaNvl6IxcXgCzCe-l7bwzEOtQbE1KRs`); // Initialize the client with your API key
 
 // const fetchArticleContent = async (url) => {
@@ -147,16 +146,6 @@
 //   summarizeNews,
 // };
 
-
-
-
-
-
-
-
-
-
-
 const axios = require("axios");
 const { load } = require("cheerio");
 const { OpenAI } = require("openai"); // Import OpenAI
@@ -167,9 +156,8 @@ require("dotenv").config();
 const openai = new OpenAI({
   organization: process.env.OPENAI_ORG,
   project: process.env.OPENAI_PROJECT,
-  apiKey:  process.env.OPENAI_API_KEY, // Use the API key from the .env file
+  apiKey: process.env.OPENAI_API_KEY, // Use the API key from the .env file
 });
-
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY); // Initialize the client with your API key
 
@@ -190,7 +178,7 @@ const fetchArticleContent = async (url) => {
       });
     }
     console.log(articleText);
-    
+
     return articleText.trim();
   } catch (error) {
     console.error("Error fetching article:", error);
@@ -255,54 +243,55 @@ const analyzeSentiment = async (articleText) => {
   try {
     // const prompts = {
     //   Target: `Target: Identify the name of the primary subject or individual targeted by the claim in the article. Provide only the name of the target, without any additional details or descriptions just breif about target in two words, note the target mentioned should be correct. Article content: ${articleText}`,
-      
+
     //   Sentiment: `Analyze the overall sentiment of the article based on how the subject is portrayed. Is it positive, negative, or neutral? Respond in 1-2 lines with a brief justification. Ensure that any personal details, such as the individual's status, are not assumed and are fact-checked. Article content: ${articleText}`,
-      
+
     //   Topic: `Summarize the main topic of the article in one sentence, focusing on the key event or claim. Ensure all personal details mentioned are accurate and not assumed. Article content: ${articleText}`,
-      
+
     //   Theme: `Identify the main theme of the article in 1-2 words (e.g., "misinformation," "politics"). Focus on the central subject matter. Article content: ${articleText}`,
-      
+
     //   Location: `Provide the location relevant to the key event. Do not assume any locations or details unless explicitly mentioned. If no specific city is mentioned, provide the country or region related to the event in one sentence only. Article content: ${articleText}`,
     // };
-    
-    
+
+    //   const prompts = {
+    //     Target: `Identify the primary subject of the claim in the article. Provide the name of the target and a brief 2-3 word description for clarity (e.g., "Narendra Modi - The Prime Minister"). If the claim targets a broader group, specify that as well. Article content: ${articleText}`,
+
+    //     Sentiment: `As an expert analyst from a fact-checking organization, analyze the sentiment regarding how the **false claim** or **misinformation** is portrayed. Is the sentiment towards the claim positive, negative, or neutral? Respond with one word: "Positive," "Negative," or "Neutral." Then provide a justification with specific examples or quotes from the article (1-2 sentences). Be aware of nuances like sarcasm or mixed feelings. Article content: ${articleText}`,
+
+    //     Topic: `Summarize the main topic of the article in one clear sentence, focusing on the key event or claim. Ensure accuracy and do not include assumed personal details. Highlight any significant context that informs the topic. Article content: ${articleText}`,
+
+    //     Theme: `Identify the main theme of the article in 1-2 words from the following categories: "international," "political," "crime," "entertainment," "economic," "social," "religious," "environmental," or "cultural." Multiple themes may be present; specify if applicable. Article content: ${articleText}`,
+
+    //     Location: `Provide the specific location relevant to the key event discussed in the article. If no specific city is mentioned, state the country or region associated with the event. Include any relevant context that clarifies the location. Article content: ${articleText}`,
+    // };
+    const prompts = {
+      Target: `Analyze the article and identify the **specific entities** directly implicated in the incident related to the claim. Provide only the **relevant and main targets** in the specified format:
+      - **Individual**: [Name].
+      - **Organization**: [Name].
+      - **Community**: [Community Name].
+      Omit any category that does not apply; do not use generic terms like "None" or "N/A." Focus solely on the entities that are directly involved or referenced as targets in relation to the incident discussed in the article.
+      Article content: ${articleText}.`,
 
 
-  //   const prompts = {
-  //     Target: `Identify the primary subject of the claim in the article. Provide the name of the target and a brief 2-3 word description for clarity (e.g., "Narendra Modi - The Prime Minister"). If the claim targets a broader group, specify that as well. Article content: ${articleText}`,
-  
-  //     Sentiment: `As an expert analyst from a fact-checking organization, analyze the sentiment regarding how the **false claim** or **misinformation** is portrayed. Is the sentiment towards the claim positive, negative, or neutral? Respond with one word: "Positive," "Negative," or "Neutral." Then provide a justification with specific examples or quotes from the article (1-2 sentences). Be aware of nuances like sarcasm or mixed feelings. Article content: ${articleText}`,
-  
-  //     Topic: `Summarize the main topic of the article in one clear sentence, focusing on the key event or claim. Ensure accuracy and do not include assumed personal details. Highlight any significant context that informs the topic. Article content: ${articleText}`,
-  
-  //     Theme: `Identify the main theme of the article in 1-2 words from the following categories: "international," "political," "crime," "entertainment," "economic," "social," "religious," "environmental," or "cultural." Multiple themes may be present; specify if applicable. Article content: ${articleText}`,
-  
-  //     Location: `Provide the specific location relevant to the key event discussed in the article. If no specific city is mentioned, state the country or region associated with the event. Include any relevant context that clarifies the location. Article content: ${articleText}`,
-  // };
-  
-  const prompts = {
-    // Target: `Provide the name who is being targeted by the claim and describe the target as an individual,community, group, organization, or entity, including relevant roles or affiliations, the response should be wrapped and phrased in one sentence (e.g., "Sudarshan News - Media Outlet, Narendra Modi - The Prime Minister, Hindu Community, Muslim community, Sikh Community") . Article content: ${articleText}`,
-    Target: `Analyze the article from all perspectives and identify all entities being targeted by the claim, including individuals, organizations, and communities. Mention any relevant communities, individuals, and organizations specifically targeted, and format your response clearly, using separate lines for each type. The format should be: "Community: [Community Name] - [Description], Individual: [Name] - [Role], Organization: [Name] - [Description]." Ensure the response includes all relevant targets and is complete , organize the response properly just show crisp and precise response and make it user readable. Article content: ${articleText}.
-`,
+      Sentiment: `Evaluate the **overall sentiment** toward the identified targets in the article. Classify it as Positive, Negative, or Neutral, providing a **justification** for your classification in a few words. If multiple sentiments are present, focus on identifying the sentiment that is most prominently expressed in the article, while briefly noting any additional sentiments. Ensure your assessment remains neutral. Format your response as:
+-[Positive, Negative, or Neutral] – [One-liner justification]. 
+If applicable, note any additional sentiments briefly.
+Article content: ${articleText}.`,
 
- 
-    Sentiment: `As a sentiment-analyzing expert in a top-tier organization, evaluate the sentiment conveyed by the claim in the article. Classify the sentiment as Positive, Negative, or Neutral, focusing on the affected communities. Your justification should highlight any emotional or social impact and it should be phrased in just one line, including potential harm caused by the false claims and also if article shows multiple sentiments it can be showed providing justification. Phrase your response as follows: (Positive, Negative, or Neutral) - Justification(one liner justification). Article content: ${articleText}`,
+      Topic: `Create a **concise title** that summarizes the claim or main topic of the article, highlighting that it has been fact-checked. The title should reflect the core **claim**. Format as:
+      "[Claim or Event] Misrepresented in [Context/Event]."
+      Article content: ${articleText}.`,
 
+      Theme: `Identify and categorize the primary theme(s) of the article from the following categories: politics, communal, sports, entertainment, international, religious. If multiple themes are present, list them separated by commas. Format your response as:
+      -[theme1, theme2].
+      Article content: ${articleText}.`,
 
+      Location: `Identify the **precise location** of the incident related to the claim (e.g., city, region, country). If no specific location is mentioned, state "No specific location mentioned." Format your response as:
+      - [City, Region, Country].
+      Article content: ${articleText}.`,
+      
+    };
 
-    Topic: `As a topic-analysing expert in a top-tier, generate a concise and informative title that encapsulates the key theme of the article. The title should reflect the context of misinformation surrounding the vandalism claims and indicate the fact-checking nature of the content. Article content: ${articleText}.`,
-  
-    Theme: `As a Fact-checking expert analyst in a top-tier organisation identify the primary theme(s) related to the claim from the categories (politics, communal, sports, entertainment, international, religious). , The Response should be single word like (politics, communal, sports, entertainment, international, religious), note if article has two or more themese then show it using seperated comma","(for eg. communal, politcal). Article content: ${articleText}`,
-  
-    Location: `Identify the specific location(s) relevant to the false claim (city, region, country), the response should be like (city, region, country) (eg, Mumbai, Maharashtra) . Article content: ${articleText}`,
-  
-    // // Optional additional prompts
-    // ClaimType: `Classify the false claim as Misleading, Fabricated, Manipulated Media, or Other (specify). Article content: ${articleText}`,
-  
-    // Evidence: `Evaluate the credibility and reliability of evidence presented in the article to support or refute the claim. Article content: ${articleText}`,
-  
-    // PotentialImpact: `Assess the potential consequences of the false claim on public opinion, policy, or social discourse. Article content: ${articleText}`,
-  };
     const results = {};
 
     for (const [key, prompt] of Object.entries(prompts)) {
@@ -311,7 +300,8 @@ const analyzeSentiment = async (articleText) => {
         messages: [
           {
             role: "system",
-            content: "You are a top-tier analyst from a world-renowned news organization like the New York Times. Your expertise in analyzing and fact-checking news is unmatched. Ensure that all personal details are accurate and fact-checked, and do not assume or infer information not explicitly mentioned in the article. Focus on providing concise, accurate analysis in 1-2 lines.",
+            content:
+              "You are a top-tier analyst from a world-renowned news organization like the New York Times. Your expertise in analyzing and fact-checking news is unmatched. Ensure that all personal details are accurate and fact-checked, and do not assume or infer information not explicitly mentioned in the article. Focus on providing concise, accurate analysis in 1-2 lines.",
           },
           {
             role: "user",
@@ -319,12 +309,14 @@ const analyzeSentiment = async (articleText) => {
           },
         ],
         max_tokens: 100, // Reduce token limit for tighter control
+        temperature: 0.3,
       });
 
       const responseText = response.choices[0].message.content.trim();
-      results[key] = responseText.toLowerCase() === "null"
-        ? null
-        : responseText.replace(/\*\*/g, "").trim();
+      results[key] =
+        responseText.toLowerCase() === "null"
+          ? null
+          : responseText.replace(/\*\*/g, "").trim();
     }
 
     return results; // Return the structured JSON
@@ -333,10 +325,6 @@ const analyzeSentiment = async (articleText) => {
     return null; // Handle error gracefully
   }
 };
-
-
-
-
 
 // const analyzeSentiment = async (articleText) => {
 //   try {
@@ -431,7 +419,6 @@ const extractSentimentFromNews = async (req, res) => {
     return res.status(400).json({ error: "Either URL or text is required" });
   }
 
-
   try {
     let articleText;
 
@@ -484,5 +471,5 @@ const summarizeNews = async (req, res) => {
 
 module.exports = {
   summarizeNews,
-  extractSentimentFromNews
+  extractSentimentFromNews,
 };

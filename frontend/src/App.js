@@ -7,7 +7,7 @@ import {
   localAnalyseSentiment,
   localSummarizeArticle,
   summarizeArticle,
-  analyseSentiment
+  analyseSentiment,
 } from "./services/summarizeArticle";
 // import { checkSourceReliability } from './services/checkSourceReliability'; // Import your check reliability service
 
@@ -20,7 +20,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { summary, reliability } = await summarizeArticle(url, text);
+        const { summary, reliability } = await localSummarizeArticle(url, text);
         setSummary(summary);
 
         // Check the reliability of the source using the generated summary
@@ -38,7 +38,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { sentiment } = await analyseSentiment(url, text);
+        const { sentiment } = await localAnalyseSentiment(url, text);
         console.log(sentiment);
         setSentiment(sentiment);
       } catch (error) {
@@ -63,11 +63,24 @@ function App() {
             <div className="summary-container">
               <h4 className="summary-title">Sentiment:</h4>
               <ul>
-                {Object.entries(sentiment).map(([key, value]) => (
-                  <li key={key}  style={{ margin: '20px' }}>
-                    <strong>{key}:</strong> {value}
-                  </li>
-                ))}
+                {Object.entries(sentiment).map(([key, value]) => {
+                  // Split the value into lines wherever there is a "-".
+                  const formattedValue = value
+                    .split(" - ")
+                    .map((line, index) => (
+                      <span key={index}>
+                        {line}
+                        {index < value.split(" - ").length - 1 && <br />}{" "}
+                        {/* Add a line break except for the last item */}
+                      </span>
+                    ));
+
+                  return (
+                    <li key={key} style={{ margin: "20px" }}>
+                      <strong>{key}:</strong> {formattedValue}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}

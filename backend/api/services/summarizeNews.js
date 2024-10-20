@@ -269,9 +269,7 @@ const analyzeSentiment = async (articleText) => {
       - **Individual**: [Name].
       - **Organization**: [Name].
       - **Community**: [Community Name].
-      Omit any category that does not apply; do not use generic terms like "None" or "N/A." Focus solely on the entities that are directly involved or referenced as targets in relation to the incident discussed in the article.
       Article content: ${articleText}.`,
-
 
       Sentiment: `Evaluate the **overall sentiment** toward the identified targets in the article. Classify it as Positive, Negative, or Neutral, providing a **justification** for your classification in a few words. If multiple sentiments are present, focus on identifying the sentiment that is most prominently expressed in the article, while briefly noting any additional sentiments. Ensure your assessment remains neutral. Format your response as:
 -[Positive, Negative, or Neutral] – [One-liner justification]. 
@@ -289,7 +287,6 @@ Article content: ${articleText}.`,
       Location: `Identify the **precise location** of the incident related to the claim (e.g., city, region, country). If no specific location is mentioned, state "No specific location mentioned." Format your response as:
       - [City, Region, Country].
       Article content: ${articleText}.`,
-      
     };
 
     const results = {};

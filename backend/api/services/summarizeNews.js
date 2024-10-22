@@ -325,7 +325,7 @@ const checkSourceReliability = async (articleText) => {
 
 const analyzeSentiment = async (articleText) => {
   try {
-    const combinedPrompt = `Filter the original content from boom analysis it shouldnt consider any analysis performed by noom and analyze the following article from a user’s perspective, focusing exclusively on the claims made by the original sources cited within the article. Exclude any fact-check sections and do not consider the BOOM article itself as a source or target. Pay particular attention to the claims made by other organizations or posts on platforms such as Instagram, Twitter, Facebook, and YouTube mentioned within the claim section. Provide results in a structured JSON format.
+    const combinedPrompt = `Analyse the claim section in article and filter the original content from boom analysis it shouldnt consider any analysis performed by noom and analyze the following article from a user’s perspective, focusing exclusively on the claims made by the original sources cited within the article. Exclude any fact-check sections and do not consider the BOOM article itself as a source or target. Pay particular attention to the claims made by other organizations or posts on platforms such as Instagram, Twitter, Facebook, and YouTube mentioned within the claim section. Provide results in a structured JSON format.
 Article content: ${articleText}.
 
 1. **Identify Specific Targets**:
@@ -354,8 +354,8 @@ Article content: ${articleText}.
 Return the results in this JSON format and note if source of claim has same entity as targets it shouldn't add them as targets:
 {
   "target": {
-    "individuals": ["Name1", "Name n", or null], // if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
-    "organizations": [null if value of sourceofclaim is similar],  // **it shouldn't consider the original source as target** and only if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
+    "individuals": ["Name1", "Name n", or null], // if considered a negative entity(bad person) from the user’s perspective and **target is not source of article claim** or else null
+    "organizations": [null if value of sourceofclaim is similar  or "Only those who are not considered as sourceofclaims"],  // **it shouldn't consider the original source as target** and only if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
     "communities": ["Community1", "Communityn" or null] // if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
   },
   
@@ -367,13 +367,15 @@ Return the results in this JSON format and note if source of claim has same enti
   },
   
   "topic": "Your concise title.",
-  "themes": ["Theme1", "Theme2"],
+  "themes": ["Theme1", "Theme2"], // Eg:- (politics, communal, sports, entertainment, international, religious)
   "location": "City, Region, Country" 
 }
+-Note Analyze only the claim section for targets of the article it should understand the user point of view on claim section mentioned that wo is shown as bad person on negative entity(Any Political Party, Any Community) and only analyse the original source content from which boom has refered from, it should not contain any sourceofclaims in the targets(individual, organization, communities).
 
-- Note it should set organizations in target as null that is "organizations": [null] if value of sourceofclaim is similar For Eg: "organizations": ["Sudarshan News", "Kreately Media"] and "sourceofclaim": "Multiple sources including Sudarshan News, Kreately Media, and NDTV Rajasthan"
 
-- Note "sourceofclaim" key shouldnt add boom as value that is "sourceofclaim": "Boom" , it should check fro where boom has taken reference like social media account, post and any news media company who are providing claims and that should be added as "sourceofclaim" value.
+- Note it should set organizations, individual, communities in target as null that is "organizations": [null] if value of sourceofclaim is similar For Eg: "organizations": ["Sudarshan News", "Kreately Media"] and "sourceofclaim": "Multiple sources including Sudarshan News, Kreately Media, and NDTV Rajasthan"
+
+- Note "sourceofclaim" key shouldn't add boom as value that is "sourceofclaim": "Boom" , it should check fro where boom has taken reference like social media account, post and any news media company who are providing claims and that should be added as "sourceofclaim" value.
 
 - Note Topic should be based on the complete depiction of what orignal article source is comprehending
 
@@ -391,7 +393,7 @@ Return the results in this JSON format and note if source of claim has same enti
         { role: "user", content: combinedPrompt },
       ],
       max_tokens: 1000,
-      temperature: 0.1,
+      temperature: 0.3,
     });
 
     const responseText = response.choices[0].message.content.trim();

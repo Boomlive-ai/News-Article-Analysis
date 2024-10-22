@@ -332,6 +332,7 @@ Article content: ${articleText}.
    - Determine individuals, organizations, or communities that users might perceive as **negatively implicated** in the claims made by the original sources.
    - **Ignore any claims made by BOOM or claims that merely quote or reference the original claim** in the article. Only consider the original sources.
    - **Do not include organizations, individuals, or communities that are sources of claims as targets**.
+   -- null if value of sourceofclaim is similar For Eg: "organizations": ["Sudarshan News", "Kreately Media"] and "sourceofclaim": "Multiple sources including Sudarshan News, Kreately Media, and NDTV Rajasthan" then "organizations": [null].
 
 
 2. **User Sentiment Analysis**:
@@ -354,7 +355,7 @@ Return the results in this JSON format and note if source of claim has same enti
 {
   "target": {
     "individuals": ["Name1", "Name n", or null], // if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
-    "organizations": ["Org1", "Org n", or null],  // **it shouldn't consider the original source as target** and only if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
+    "organizations": [null if value of sourceofclaim is similar],  // **it shouldn't consider the original source as target** and only if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
     "communities": ["Community1", "Communityn" or null] // if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
   },
   
@@ -369,6 +370,14 @@ Return the results in this JSON format and note if source of claim has same enti
   "themes": ["Theme1", "Theme2"],
   "location": "City, Region, Country" 
 }
+
+- Note it should set organizations in target as null that is "organizations": [null] if value of sourceofclaim is similar For Eg: "organizations": ["Sudarshan News", "Kreately Media"] and "sourceofclaim": "Multiple sources including Sudarshan News, Kreately Media, and NDTV Rajasthan"
+
+- Note "sourceofclaim" key shouldnt add boom as value that is "sourceofclaim": "Boom" , it should check fro where boom has taken reference like social media account, post and any news media company who are providing claims and that should be added as "sourceofclaim" value.
+
+- Note Topic should be based on the complete depiction of what orignal article source is comprehending
+
+- Note all the analysis should be done ignoring Fact-check section analysis done in article , the nalaysis solely should be based on original claims of referenced content by boom.
 `;
 
     const response = await openai.chat.completions.create({
@@ -381,7 +390,7 @@ Return the results in this JSON format and note if source of claim has same enti
         },
         { role: "user", content: combinedPrompt },
       ],
-      max_tokens: 200,
+      max_tokens: 1000,
       temperature: 0.1,
     });
 

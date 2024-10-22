@@ -332,7 +332,7 @@ Article content: ${articleText}.
    - Determine individuals, organizations, or communities that users might perceive as **negatively implicated** in the claims made by the original sources.
    - **Ignore any claims made by BOOM or claims that merely quote or reference the original claim** in the article. Only consider the original sources.
    - **Do not include organizations, individuals, or communities that are sources of claims as targets**.
-   -- null if value of sourceofclaim is similar For Eg: "organizations": ["Sudarshan News", "Kreately Media"] and "sourceofclaim": "Multiple sources including Sudarshan News, Kreately Media, and NDTV Rajasthan" then "organizations": [null].
+
 
 
 2. **User Sentiment Analysis**:

@@ -15,7 +15,7 @@ function App() {
   const [summary, setSummary] = useState("");
   const [reliabilityAssessment, setReliabilityAssessment] = useState(""); // State for reliability assessment
   const [loading, setLoading] = useState(false); // State for loading
-  const [sentiment, setSentiment] = useState("");
+  const [sentiment, setSentiment] = useState({});
   const handleSummarize = async (url, text) => {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
@@ -38,9 +38,10 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { sentiment } = await analyseSentiment(url, text);
-        console.log(sentiment);
-        setSentiment(sentiment);
+        const result = await analyseSentiment(url, text);
+        console.log(result); // Check what you receive from the backend
+        // Directly set the result as the sentiment state
+        setSentiment(result.sentiment); // Ensure result has the expected structure
       } catch (error) {
         console.log("Failed to analyze sentiment of the article.");
       } finally {
@@ -48,6 +49,7 @@ function App() {
       }
     }
   };
+  
 
   return (
     <div className="App">
@@ -55,36 +57,55 @@ function App() {
         onSummarize={handleSummarize}
         onSentiment={handleSentiment}
       />
-      {loading ? ( // Conditional rendering for loader
+      {loading ? (
         <Loader />
       ) : (
         <>
-          {sentiment && (
+          {sentiment.sentiment && ( // Check if sentiment and sentiment.classification exist
             <div className="summary-container">
-              <h4 className="summary-title">Sentiment:</h4>
-              <ul>
-                {Object.entries(sentiment).map(([key, value]) => {
-                  // Split the value into lines wherever there is a "-".
-                  const formattedValue = value
-                    .split(" - ")
-                    .map((line, index) => (
-                      <span key={index}>
-                        {line}
-                        {index < value.split(" - ").length - 1 && <br />}{" "}
-                        {/* Add a line break except for the last item */}
-                      </span>
-                    ));
-
-                  return (
-                    <li key={key} style={{ margin: "20px" }}>
-                      <strong>{key}:</strong> {formattedValue}
-                    </li>
-                  );
-                })}
-              </ul>
+              <h4 className="summary-title">Sentiment Analysis:</h4>
+              <div className="sentiment-section">
+                <div className="sentiment-item">
+                  <strong>Classification:</strong>{" "}
+                  {sentiment.sentiment.classification}
+                </div>
+                <div className="sentiment-item">
+                  <strong>Justification:</strong>{" "}
+                  {sentiment.sentiment.justification}
+                </div>
+              </div>
+              <div className="target-section">
+                <h4>Target:</h4>
+                <ul>
+                  <li>
+                    <strong>Individuals:</strong>{" "}
+                    {sentiment.target?.individuals?.join(", ") || "N/A"}
+                  </li>
+                  <li>
+                    <strong>Organizations:</strong>{" "}
+                    {sentiment.target?.organizations?.join(", ") || "N/A"}
+                  </li>
+                  <li>
+                    <strong>Communities:</strong>{" "}
+                    {sentiment.target?.communities?.join(", ") || "N/A"}
+                  </li>
+                </ul>
+              </div>
+              <div className="sentiment-item">
+                <strong>Source of claim:</strong> {sentiment.sourceofclaim || "N/A"}
+              </div>
+              <div className="sentiment-item">
+                <strong>Topic:</strong> {sentiment.topic || "N/A"}
+              </div>
+              <div className="sentiment-item">
+                <strong>Themes:</strong> {sentiment.themes?.join(", ") || "N/A"}
+              </div>
+              <div className="sentiment-item">
+                <strong>Location:</strong> {sentiment.location || "N/A"}
+              </div>
             </div>
           )}
-
+  
           {summary && (
             <div className="summary-container">
               <h4 className="summary-title">Summary:</h4>

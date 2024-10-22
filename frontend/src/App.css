@@ -178,3 +178,56 @@ p {
   color: #333; /* Dark text color */
   line-height: 1.5; /* Improved line height for readability */
 }
+
+
+
+
+.sentiment-section {
+  background-color: #e9ecef; /* Light gray background */
+  padding: 15px; /* Padding around the section */
+  border-radius: 6px; /* Rounded corners */
+  margin-bottom: 20px; /* Space below the section */
+}
+
+.sentiment-item {
+  margin-bottom: 10px; /* Space between items */
+}
+
+.target-section ul {
+  list-style-type: none; /* Remove default list styles */
+  padding: 0; /* Remove padding */
+}
+
+.target-section li {
+  background-color: #fff; /* White background for list items */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  padding: 10px; /* Padding inside the list item */
+  margin-bottom: 8px; /* Space between list items */
+}
+
+.target-section h5 {
+  margin-bottom: 10px; /* Space below the subsection title */
+}
+
+.summary-title {
+  font-size: 24px; /* Title size */
+  font-weight: bold; /* Bold title */
+  margin-bottom: 10px; /* Space below the title */
+}
+
+h4 {
+  color: #333; /* Dark text color */
+  font-size: 22px; /* Increased font size */
+}
+
+.summary-container {
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 6px; /* Rounded corners */
+  padding: 20px; /* Spacing inside the container */
+  margin-top: 20px; /* Space above the summary */
+  font-family: Arial, sans-serif; /* Font style */
+  font-size: 16px; /* Font size */
+  line-height: 1.6; /* Line height for readability */
+}

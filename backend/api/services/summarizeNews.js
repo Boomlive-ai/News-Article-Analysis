@@ -177,7 +177,7 @@ const fetchArticleContent = async (url) => {
         articleText += $(element).text() + "\n";
       });
     }
-    console.log(articleText);
+    // console.log(articleText);
 
     return articleText.trim();
   } catch (error) {
@@ -239,159 +239,74 @@ const checkSourceReliability = async (articleText) => {
 //   }
 // };
 
-const analyzeSentiment = async (articleText) => {
-  try {
-    // const prompts = {
-    //   Target: `Target: Identify the name of the primary subject or individual targeted by the claim in the article. Provide only the name of the target, without any additional details or descriptions just breif about target in two words, note the target mentioned should be correct. Article content: ${articleText}`,
-
-    //   Sentiment: `Analyze the overall sentiment of the article based on how the subject is portrayed. Is it positive, negative, or neutral? Respond in 1-2 lines with a brief justification. Ensure that any personal details, such as the individual's status, are not assumed and are fact-checked. Article content: ${articleText}`,
-
-    //   Topic: `Summarize the main topic of the article in one sentence, focusing on the key event or claim. Ensure all personal details mentioned are accurate and not assumed. Article content: ${articleText}`,
-
-    //   Theme: `Identify the main theme of the article in 1-2 words (e.g., "misinformation," "politics"). Focus on the central subject matter. Article content: ${articleText}`,
-
-    //   Location: `Provide the location relevant to the key event. Do not assume any locations or details unless explicitly mentioned. If no specific city is mentioned, provide the country or region related to the event in one sentence only. Article content: ${articleText}`,
-    // };
-
-    //   const prompts = {
-    //     Target: `Identify the primary subject of the claim in the article. Provide the name of the target and a brief 2-3 word description for clarity (e.g., "Narendra Modi - The Prime Minister"). If the claim targets a broader group, specify that as well. Article content: ${articleText}`,
-
-    //     Sentiment: `As an expert analyst from a fact-checking organization, analyze the sentiment regarding how the **false claim** or **misinformation** is portrayed. Is the sentiment towards the claim positive, negative, or neutral? Respond with one word: "Positive," "Negative," or "Neutral." Then provide a justification with specific examples or quotes from the article (1-2 sentences). Be aware of nuances like sarcasm or mixed feelings. Article content: ${articleText}`,
-
-    //     Topic: `Summarize the main topic of the article in one clear sentence, focusing on the key event or claim. Ensure accuracy and do not include assumed personal details. Highlight any significant context that informs the topic. Article content: ${articleText}`,
-
-    //     Theme: `Identify the main theme of the article in 1-2 words from the following categories: "international," "political," "crime," "entertainment," "economic," "social," "religious," "environmental," or "cultural." Multiple themes may be present; specify if applicable. Article content: ${articleText}`,
-
-    //     Location: `Provide the specific location relevant to the key event discussed in the article. If no specific city is mentioned, state the country or region associated with the event. Include any relevant context that clarifies the location. Article content: ${articleText}`,
-    // };
-    const prompts = {
-      Target: `Analyze the article and identify the **specific entities** directly implicated in the incident related to the claim. Provide only the **relevant and main targets** in the specified format:
-      - **Individual**: [Name].
-      - **Organization**: [Name].
-      - **Community**: [Community Name].
-      Article content: ${articleText}.`,
-
-      Sentiment: `Evaluate the **overall sentiment** toward the identified targets in the article. Classify it as Positive, Negative, or Neutral, providing a **justification** for your classification in a few words. If multiple sentiments are present, focus on identifying the sentiment that is most prominently expressed in the article, while briefly noting any additional sentiments. Ensure your assessment remains neutral. Format your response as:
--[Positive, Negative, or Neutral] – [One-liner justification]. 
-If applicable, note any additional sentiments briefly.
-Article content: ${articleText}.`,
-
-      Topic: `Create a **concise title** that summarizes the claim or main topic of the article, highlighting that it has been fact-checked. The title should reflect the core **claim**. Format as:
-      "[Claim or Event] Misrepresented in [Context/Event]."
-      Article content: ${articleText}.`,
-
-      Theme: `Identify and categorize the primary theme(s) of the article from the following categories: politics, communal, sports, entertainment, international, religious. If multiple themes are present, list them separated by commas. Format your response as:
-      -[theme1, theme2].
-      Article content: ${articleText}.`,
-
-      Location: `Identify the **precise location** of the incident related to the claim (e.g., city, region, country). If no specific location is mentioned, state "No specific location mentioned." Format your response as:
-      - [City, Region, Country].
-      Article content: ${articleText}.`,
-    };
-
-    const results = {};
-
-    for (const [key, prompt] of Object.entries(prompts)) {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo", // or "gpt-4" if needed
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a top-tier analyst from a world-renowned news organization like the New York Times. Your expertise in analyzing and fact-checking news is unmatched. Ensure that all personal details are accurate and fact-checked, and do not assume or infer information not explicitly mentioned in the article. Focus on providing concise, accurate analysis in 1-2 lines.",
-          },
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-        max_tokens: 100, // Reduce token limit for tighter control
-        temperature: 0.3,
-      });
-
-      const responseText = response.choices[0].message.content.trim();
-      results[key] =
-        responseText.toLowerCase() === "null"
-          ? null
-          : responseText.replace(/\*\*/g, "").trim();
-    }
-
-    return results; // Return the structured JSON
-  } catch (error) {
-    console.error("Error analyzing sentiment:", error);
-    return null; // Handle error gracefully
-  }
-};
-
 // const analyzeSentiment = async (articleText) => {
 //   try {
+//     // const prompts = {
+//     //   Target: `Target: Identify the name of the primary subject or individual targeted by the claim in the article. Provide only the name of the target, without any additional details or descriptions just breif about target in two words, note the target mentioned should be correct. Article content: ${articleText}`,
+
+//     //   Sentiment: `Analyze the overall sentiment of the article based on how the subject is portrayed. Is it positive, negative, or neutral? Respond in 1-2 lines with a brief justification. Ensure that any personal details, such as the individual's status, are not assumed and are fact-checked. Article content: ${articleText}`,
+
+//     //   Topic: `Summarize the main topic of the article in one sentence, focusing on the key event or claim. Ensure all personal details mentioned are accurate and not assumed. Article content: ${articleText}`,
+
+//     //   Theme: `Identify the main theme of the article in 1-2 words (e.g., "misinformation," "politics"). Focus on the central subject matter. Article content: ${articleText}`,
+
+//     //   Location: `Provide the location relevant to the key event. Do not assume any locations or details unless explicitly mentioned. If no specific city is mentioned, provide the country or region related to the event in one sentence only. Article content: ${articleText}`,
+//     // };
+
+//     //   const prompts = {
+//     //     Target: `Identify the primary subject of the claim in the article. Provide the name of the target and a brief 2-3 word description for clarity (e.g., "Narendra Modi - The Prime Minister"). If the claim targets a broader group, specify that as well. Article content: ${articleText}`,
+
+//     //     Sentiment: `As an expert analyst from a fact-checking organization, analyze the sentiment regarding how the **false claim** or **misinformation** is portrayed. Is the sentiment towards the claim positive, negative, or neutral? Respond with one word: "Positive," "Negative," or "Neutral." Then provide a justification with specific examples or quotes from the article (1-2 sentences). Be aware of nuances like sarcasm or mixed feelings. Article content: ${articleText}`,
+
+//     //     Topic: `Summarize the main topic of the article in one clear sentence, focusing on the key event or claim. Ensure accuracy and do not include assumed personal details. Highlight any significant context that informs the topic. Article content: ${articleText}`,
+
+//     //     Theme: `Identify the main theme of the article in 1-2 words from the following categories: "international," "political," "crime," "entertainment," "economic," "social," "religious," "environmental," or "cultural." Multiple themes may be present; specify if applicable. Article content: ${articleText}`,
+
+//     //     Location: `Provide the specific location relevant to the key event discussed in the article. If no specific city is mentioned, state the country or region associated with the event. Include any relevant context that clarifies the location. Article content: ${articleText}`,
+//     // };
 //     const prompts = {
-//       Target: `As a leading analyst from The New York Times, analyze the following article and identify who or what is being targeted by the claim or information presented. Provide the target in a few words (e.g., "NASA and Boeing," "local government"). No additional explanation needed. Article content: ${articleText}`,
-//       Sentiment: `As a top-tier analyst, assess the sentiment of the following article. Determine whether the overall tone of the claim or information presented is positive, negative, or neutral. Respond with one word only ("positive," "negative," or "neutral"). Ensure accuracy based on the article's content, without additional commentary. Article content: ${articleText}`,
-//       Topic: `Read the following article and, as a leading reporter, identify the main topic or central event it discusses. Provide a meaningful topic in a few words (e.g., "Boeing Starliner mission," "India-Canada relations"). Ensure clarity without extra formatting. Article content: ${articleText}`,
-//       Theme: `As a skilled analyst from a major publication, analyze the following article and determine its overall theme based on the content. Provide the theme in one or two words (e.g., "politics," "international," "technology"). Ensure the response is meaningful and accurately reflects the article’s content, without additional text. Article content: ${articleText}`,
-//       Location: `As a top journalist, extract the location mentioned within the article. If a specific city is mentioned, format it as "City, State, Country" (e.g., "Mumbai, Maharashtra, India"). If only a country is mentioned, provide just the country name (e.g., "India"). If no specific location is mentioned, infer the most likely country based on context. Provide a clear response without extra commentary. Article content: ${articleText}`,
+//       Target: `Analyze the article and identify the **specific entities** directly implicated in the incident related to the claim. Provide only the **relevant and main targets** in the specified format:
+//       - **Individual**: [Name].
+//       - **Organization**: [Name].
+//       - **Community**: [Community Name].
+//       Article content: ${articleText}.`,
+
+//       Sentiment: `Evaluate the **overall sentiment** toward the identified targets in the article. Classify it as Positive, Negative, or Neutral, providing a **justification** for your classification in a few words. If multiple sentiments are present, focus on identifying the sentiment that is most prominently expressed in the article, while briefly noting any additional sentiments. Ensure your assessment remains neutral. Format your response as:
+// -[Positive, Negative, or Neutral] – [One-liner justification].
+// If applicable, note any additional sentiments briefly.
+// Article content: ${articleText}.`,
+
+//       Topic: `Create a **concise title** that summarizes the claim or main topic of the article, highlighting that it has been fact-checked. The title should reflect the core **claim**. Format as:
+//       "[Claim or Event] Misrepresented in [Context/Event]."
+//       Article content: ${articleText}.`,
+
+//       Theme: `Identify and categorize the primary theme(s) of the article from the following categories: politics, communal, sports, entertainment, international, religious. If multiple themes are present, list them separated by commas. Format your response as:
+//       -[theme1, theme2].
+//       Article content: ${articleText}.`,
+
+//       Location: `Identify the **precise location** of the incident related to the claim (e.g., city, region, country). If no specific location is mentioned, state "No specific location mentioned." Format your response as:
+//       - [City, Region, Country].
+//       Article content: ${articleText}.`,
 //     };
 
 //     const results = {};
 
 //     for (const [key, prompt] of Object.entries(prompts)) {
 //       const response = await openai.chat.completions.create({
-//         model: "gpt-3.5-turbo", // or "gpt-4" if you want to use that
-//         messages: [
-//           {
-//             role: "system",
-//             content: "You are an expert analyst from a leading news organization.",
-//           },
-//           {
-//             role: "user",
-//             content: prompt,
-//           },
-//         ],
-//         max_tokens: 50, // Allow for more comprehensive responses
-//       });
-
-//       const responseText = response.choices[0].message.content.trim();
-//       results[key] =
-//         responseText.toLowerCase() === "null"
-//           ? null
-//           : responseText.replace(/\*\*/g, "").trim();
-//     }
-
-//     return results; // Return the structured JSON
-//   } catch (error) {
-//     console.error("Error analyzing sentiment:", error);
-//     return null; // Handle error gracefully
-//   }
-// };
-
-// const analyzeSentiment = async (articleText) => {
-//   try {
-//     const prompts = {
-//       Target: `Analyze the following article and identify who or what is being targeted by the claim or information presented. Provide the target in **one or two words only** (e.g., "government," "voters," "media," "opposition"). Do not include any explanatory text, and ensure the response is based on a clear understanding of the article's content. Avoid returning "null." Article content: ${articleText}`,
-//       Sentiment: `Analyze the sentiment of the following article and determine whether the overall tone of the claim or information presented is positive, negative, or neutral. Respond with one word only ("positive," "negative," or "neutral"). Ensure the response is accurate based on the article's content, and do not respond with "null." Article content: ${articleText}`,
-//       Topic: `Read the following article and identify the main topic or central event it discusses, focusing on the primary character, issue, or situation. Provide a concise, meaningful topic in a few words (e.g., "Baba Siddique murder," "LS elections," "India-Canada row"). Ensure the response is clear, without repetition or extra formatting. Do not prepend the word "Topic" in your response. Article content: ${articleText}`,
-//       Theme: `Analyze the following article and determine its overall theme based on its content. Provide the theme in **one word** (e.g., "politics," "international," "sports," "entertainment," "crime," "religious"). Ensure the response is meaningful, based on a clear understanding of the article’s content, and do not return "null." Avoid any asterisks or additional formatting. Article content: ${articleText}`,
-//       Location: `Analyze the following article and extract the location mentioned within. If a specific city is mentioned, provide the format "City, State, Country" (e.g., "Mumbai, Maharashtra, India"). If only a country is mentioned, provide just the country name (e.g., "India"). If no specific location is mentioned, infer and suggest the most likely country based on the article's context. Ensure the response is clear and without additional explanatory text. Article content: ${articleText}`,
-//     };
-
-//     const results = {};
-
-//     for (const [key, prompt] of Object.entries(prompts)) {
-//       const response = await openai.chat.completions.create({
-//         model: "gpt-3.5-turbo", // or "gpt-4" if you want to use that
+//         model: "gpt-4", // or "gpt-4" if needed gpt-3.5-turbo
 //         messages: [
 //           {
 //             role: "system",
 //             content:
-//               "You are an expert in extracting structured data from text.",
+//               "You are a top-tier analyst from a world-renowned news organization like the New York Times. Your expertise in analyzing and fact-checking news is unmatched. Ensure that all personal details are accurate and fact-checked, and do not assume or infer information not explicitly mentioned in the article. Focus on providing concise, accurate analysis in 1-2 lines.",
 //           },
 //           {
 //             role: "user",
 //             content: prompt,
 //           },
 //         ],
-//         max_tokens: 20,
+//         max_tokens: 100, // Reduce token limit for tighter control
+//         temperature: 0.3,
 //       });
 
 //       const responseText = response.choices[0].message.content.trim();
@@ -407,6 +322,93 @@ Article content: ${articleText}.`,
 //     return null; // Handle error gracefully
 //   }
 // };
+
+const analyzeSentiment = async (articleText) => {
+  try {
+    const combinedPrompt = `Filter the original content from boom analysis it shouldnt consider any analysis performed by noom and analyze the following article from a user’s perspective, focusing exclusively on the claims made by the original sources cited within the article. Exclude any fact-check sections and do not consider the BOOM article itself as a source or target. Pay particular attention to the claims made by other organizations or posts on platforms such as Instagram, Twitter, Facebook, and YouTube mentioned within the claim section. Provide results in a structured JSON format.
+Article content: ${articleText}.
+
+1. **Identify Specific Targets**:
+   - Determine individuals, organizations, or communities that users might perceive as **negatively implicated** in the claims made by the original sources.
+   - **Ignore any claims made by BOOM or claims that merely quote or reference the original claim** in the article. Only consider the original sources.
+   - **Do not include organizations, individuals, or communities that are sources of claims as targets**.
+
+
+2. **User Sentiment Analysis**:
+   - Classify the overall sentiment users might feel towards the identified targets as **Positive**, **Negative**, or **Neutral**.
+   - Justification is not necessary; focus on sentiment alone.
+
+3. **Concise Title**:
+   - Create a clear title summarizing the user’s perspective on the claims from the original sources.
+
+4. **Identify Themes**:
+   - List themes relevant to user interests or concerns, such as politics, communal issues, or public safety.
+
+5. **Location Detail**:
+   - Specify the exact location mentioned in the article or state "No specific location mentioned."
+
+6. **Analyze Social Media Posts**:
+   - If relevant, extract and analyze any claims made in social media posts linked within the article's claim section.
+
+Return the results in this JSON format and note if source of claim has same entity as targets it shouldn't add them as targets:
+{
+  "target": {
+    "individuals": ["Name1", "Name n", or null], // if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
+    "organizations": ["Org1", "Org n", or null],  // **it shouldn't consider the original source as target** and only if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
+    "communities": ["Community1", "Communityn" or null] // if considered a negative entity from the user’s perspective and **target is not source of article claim** or else null
+  },
+  
+  "sourceofclaim": "**mention organization who provided the claim**",
+  
+  "sentiment": {
+    "classification": "Positive/Negative/Neutral",
+    "justification": "One Line Justification for the sentiment"
+  },
+  
+  "topic": "Your concise title.",
+  "themes": ["Theme1", "Theme2"],
+  "location": "City, Region, Country" 
+}
+`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", // gpt-3.5-turbo or gpt-4
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an analyst focusing on user perspectives. Focus mainly on the claims made by original sources cited in the article, excluding BOOM's own claims and fact-checking conclusions. Provide concise results in JSON format.",
+        },
+        { role: "user", content: combinedPrompt },
+      ],
+      max_tokens: 200,
+      temperature: 0.1,
+    });
+
+    const responseText = response.choices[0].message.content.trim();
+    console.log(responseText);
+
+    const cleanedText = responseText.replace(/```json\n|\n```/g, "");
+    results = JSON.parse(cleanedText);
+
+    return results;
+  } catch (error) {
+    console.error("Error analyzing sentiment:", error);
+    return null;
+  }
+};
+
+// Function to parse the combined response
+const parseResponse = (responseText) => {
+  // Implement logic to parse the response into your desired structure
+  // Example logic:
+  const results = {};
+
+  // Split and parse the response as per your output requirements
+  // For example, using regex or string methods to extract relevant parts
+
+  return results;
+};
 
 const extractSentimentFromNews = async (req, res) => {
   const { url, text } = req.body;
@@ -427,6 +429,14 @@ const extractSentimentFromNews = async (req, res) => {
     else if (url) {
       articleText = await fetchArticleContent(url);
     }
+    console.log(
+      "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4"
+    );
+
+    console.log(articleText);
+    console.log(
+      "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4"
+    );
 
     const sentiment = await analyzeSentiment(articleText);
 

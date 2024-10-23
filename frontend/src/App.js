@@ -20,7 +20,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { summary, reliability } = await localSummarizeArticle(url, text);
+        const { summary, reliability } = await summarizeArticle(url, text);
         setSummary(summary);
 
         // Check the reliability of the source using the generated summary
@@ -38,7 +38,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const result = await localAnalyseSentiment(url, text);
+        const result = await analyseSentiment(url, text);
         console.log(result); // Check what you receive from the backend
         // Directly set the result as the sentiment state
         setSentiment(result.sentiment); // Ensure result has the expected structure

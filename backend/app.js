@@ -2,8 +2,9 @@ const express = require("express");
 require("dotenv").config();
 const cors = require('cors');
 const { sendContactEmail } = require("./api/services/emailService");
-const { summarizeNews, extractSentimentFromNews } = require("./api/services/summarizeNews"); // Import the summarizeNews function
+const {  extractSentimentFromNews } = require("./api/services/analyzeNews"); // Import the summarizeNews function
 const fileUpload = require('express-fileupload');
+const { summarizeNews } = require("./api/services/summarizeNews");
 const app = express();
 
 // Define allowed origins, including localhost on any port

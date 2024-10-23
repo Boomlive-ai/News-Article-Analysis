@@ -20,7 +20,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const { summary, reliability } = await summarizeArticle(url, text);
+        const { summary, reliability } = await localSummarizeArticle(url, text);
         setSummary(summary);
 
         // Check the reliability of the source using the generated summary
@@ -38,7 +38,7 @@ function App() {
     if (url || text) {
       setLoading(true); // Set loading to true before fetching
       try {
-        const result = await analyseSentiment(url, text);
+        const result = await localAnalyseSentiment(url, text);
         console.log(result); // Check what you receive from the backend
         // Directly set the result as the sentiment state
         setSentiment(result.sentiment); // Ensure result has the expected structure
@@ -49,7 +49,6 @@ function App() {
       }
     }
   };
-  
 
   return (
     <div className="App">
@@ -92,7 +91,11 @@ function App() {
                 </ul>
               </div>
               <div className="sentiment-item">
-                <strong>Source of claim:</strong> {sentiment.sourceofclaim || "N/A"}
+                {/* Check if sourceofclaim is an array, use .join() if it is, otherwise display it as is */}
+                <strong>Source:</strong>{" "}
+                {Array.isArray(sentiment.sourceofclaim)
+                  ? sentiment.sourceofclaim.join(", ")
+                  : sentiment.sourceofclaim || "N/A"}
               </div>
               <div className="sentiment-item">
                 <strong>Topic:</strong> {sentiment.topic || "N/A"}
@@ -105,7 +108,7 @@ function App() {
               </div>
             </div>
           )}
-  
+
           {summary && (
             <div className="summary-container">
               <h4 className="summary-title">Summary:</h4>
